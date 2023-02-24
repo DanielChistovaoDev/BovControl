@@ -12,11 +12,40 @@ export default function Home() {
         getChecklists();
     }, [] );
 
-    type ItemProps = {title: string};
+    type CardItemProps = {
+      fazendeiro: string,
+      fazenda: string,
+      cidade: string,
+    };
 
-    const Item = ({title}: ItemProps) => (
+    const CardItem = ({fazendeiro, fazenda, cidade}: CardItemProps) => (
       <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
+        <View
+          testID='columnText'
+          style={styles.columnText}
+        >
+          <Text style={styles.text}>
+            <Text> {fazendeiro} </Text>
+          </Text>
+
+          <Text style={styles.text}>
+            <Text> Fazenda: </Text> {fazenda}
+          </Text>
+
+          <Text style={styles.text}>
+            <Text> Cidade: </Text> {cidade}
+          </Text>
+
+        </View>
+
+        <View
+          testID='columnActions'
+          style={styles.columnActions}
+        >
+          <Text testID='info'>info</Text>
+          <Text testID='edit'>edit</Text>
+        </View>
+
       </View>
     );
 
@@ -26,7 +55,14 @@ export default function Home() {
         data={checklists}
         renderItem={({item}) => {
           return (
-            <Item title={item.from.name} />
+            <View>
+              <CardItem
+                fazenda={item.farmer.name}
+                cidade={item.farmer.city}
+                fazendeiro={item.from.name}
+              />
+
+            </View>
           )
         }}
         keyExtractor={item => `${item['_id']}`}
@@ -41,12 +77,23 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff290',
     padding: 20,
+    borderRadius: 20,
     marginVertical: 8,
     marginHorizontal: 16,
   },
-  title: {
-    fontSize: 32,
+  text: {
+    fontSize: 17,
   },
+  columnText: {
+    width: '90%',
+  },
+  columnActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  }
 });
